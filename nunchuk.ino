@@ -1,3 +1,4 @@
+#include <NintendoExtensionCtrl.h>
 
 Nunchuk nunchuk;
 
