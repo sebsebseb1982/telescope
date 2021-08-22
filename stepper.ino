@@ -14,11 +14,16 @@ AccelStepper elevationStepper = AccelStepper(
                                 );
 
 void setupSteppers() {
-  elevationStepper.setMaxSpeed(30000);
-  elevationStepper.setAcceleration(28000);
+  elevationStepper.setMaxSpeed(2000);
+  elevationStepper.setAcceleration(1000000);
 }
 
-void loopSteppers(long angleInDegrees) {
+void angleStepper(long angleInDegrees) {
   elevationStepper.moveTo(angleInDegrees * elevationStepperSpecs.pulsesByRevolution / 360);
+  elevationStepper.runToPosition();
+}
+
+void turnStepper(int delta) {
+  elevationStepper.move(delta);
   elevationStepper.runToPosition();
 }
