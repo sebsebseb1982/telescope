@@ -3,7 +3,7 @@
 
 double timenow;
 
-float utcToJulianDate(
+double utcToJulianDate(
   byte gpsDay,
   byte gpsMonth,
   int gpsYear,
@@ -16,7 +16,7 @@ float utcToJulianDate(
     Serial.print(F("Timenow : "));
     Serial.println(timenow);
   */
-  float thisday = ((gpsDay - 1.0) + (timenow / 24.0));
+  double thisday = ((gpsDay - 1.0) + (timenow / 24.0));
   if (gpsMonth == 1 || gpsMonth == 2) {
     gpsMonth = gpsMonth + 12;
     gpsYear = gpsYear - 1;
@@ -24,13 +24,13 @@ float utcToJulianDate(
   int a = floor ((double)gpsYear / 100);
   int b = 2 - a + floor (a / 4);
   long c = (365.25 * (double)gpsYear);
-  float d = floor (30.6001 * ((double)gpsMonth + 1));
-  float jd = b + c + d + (double)thisday + 1720994.5;
+  double d = floor (30.6001 * ((double)gpsMonth + 1));
+  double jd = b + c + d + (double)thisday + 1720994.5;
   return jd;
 }
 
 //Converts UTC (Univeral Time) to GST (Greenwich Sidereal Time).
-float julianDateToGST(float julianDate) {
+double julianDateToGST(float julianDate) {
   double s = julianDate - 2451545.0;
   double t = s / 36525.0;
   double step1 = (2400.051336 * t);
@@ -86,7 +86,8 @@ HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialC
                        gps.time.second()
                      );
   
-
+   // Serial.print(F("Julian date : "));
+   // Serial.println(julianDate);
   
 
   float gst = julianDateToGST(julianDate);
@@ -104,7 +105,7 @@ HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialC
 // https://astronomy.stackexchange.com/questions/13067/conversion-from-equatorial-coordinate-to-horizon-coordinates
   double ra; //These variables are used in the calculations, double/float/int/byte depending on the type of number needed.
   double dec;
-  ra = (equatorialCoordinate.rightAscension / 15);
+  ra = (equatorialCoordinate.rightAscension / 15.0);
   double h = 15.0 * (lst - ra);
     Serial.print(F(" h : "));
   Serial.print(h);
@@ -120,9 +121,9 @@ HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialC
   double sinalt = (sindec * sinlat) + (cosdec * coslat * jeremy);
   double alt = asin(sinalt);
   double cosalt = cos(alt);
-  alt = ((alt / (2 * PI)) * 360);
+  alt = ((alt / (2.0 * PI)) * 360);
   double cosaz = (sindec - (sinlat * sinalt)) / (coslat * cosalt);
-  double az = ((acos(cosaz)) * 4068) / 71;
+  double az = ((acos(cosaz)) * 4068.0) / 71.0;
   double sinhh = sin(h);
   if ((sinhh * -1) > 0) {
     az = az;

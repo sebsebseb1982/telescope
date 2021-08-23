@@ -13,6 +13,8 @@ void setupScreen() {
     for (;;);
   }
   display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
 }
 
 void menu(String name) {
@@ -28,11 +30,30 @@ void menu(String name) {
   }
 }
 
+void showNunchukTestPage(NunchukStatus nunchuckStatus) {
+  menu("Nunchuk test");
+
+  display.setCursor(0, 20);
+  display.print(F("Direction : "));
+  if (nunchuckStatus.joystickDirection == UP) {
+    display.println(F("UP"));
+  } else if (nunchuckStatus.joystickDirection == DOWN) {
+    display.println(F("DOWN"));
+  } else if (nunchuckStatus.joystickDirection == LEFT) {
+    display.println(F("LEFT"));
+  } else if (nunchuckStatus.joystickDirection == RIGHT) {
+    display.println(F("RIGHT"));
+  } else {
+    display.println(F("NONE"));
+  }
+  
+  display.display();
+}
+
 void showGPSPage(TinyGPSPlus gps) {
   menu("GPS");
 
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
+
   display.setCursor(0, 20);
 
   display.print(F("Lat.: "));

@@ -33,19 +33,25 @@ void loop() {
   if (isGPSReady()) {
     TinyGPSPlus gps = getGPSDatas();
     showGPSPage(gps);
+    //showNunchukTestPage(nunchuckStatus);
 
     EquatorialCoordinate whirpoolGalaxy = {
       202.46963,
       47.19519
     };
 
-    HorizontalCoordinate horizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(whirpoolGalaxy, gps);
+    EquatorialCoordinate pleiadeCluster = {
+      56.87117,
+      24.10503
+    };
+
+    HorizontalCoordinate horizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(pleiadeCluster, gps);
 
     Serial.print(F(" Altitude : "));
-    Serial.print(horizontalCoordinate.altitude, 30);
+    Serial.print(horizontalCoordinate.altitude, 10);
 
     Serial.print(F(" Azimuth : "));
-    Serial.println(horizontalCoordinate.azimuth, 30);
+    Serial.println(horizontalCoordinate.azimuth, 10);
   }
 
 
