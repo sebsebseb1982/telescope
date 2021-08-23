@@ -42,10 +42,10 @@ void loop() {
     HorizontalCoordinate horizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(whirpoolGalaxy, gps);
 
     Serial.print(F(" Altitude : "));
-    Serial.print(horizontalCoordinate.altitude);
+    Serial.print(horizontalCoordinate.altitude, 30);
 
     Serial.print(F(" Azimuth : "));
-    Serial.println(horizontalCoordinate.azimuth);
+    Serial.println(horizontalCoordinate.azimuth, 30);
   }
 
 

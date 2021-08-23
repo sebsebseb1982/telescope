@@ -1,3 +1,6 @@
+
+// https://www.instructables.com/Arduino-Star-Finder-for-Telescopes/
+
 double timenow;
 
 float getJulianDate(
@@ -86,21 +89,23 @@ HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialC
 
   float gst = utcToGST(julianDate);
   Serial.print(F("GST : "));
-  Serial.print(gst);
+  Serial.print(gst, 4);
 
+  // https://www.heavens-above.com/whattime.aspx?lat=44.8022&lng=-0.592&loc=Unnamed&alt=0&tz=CET
   float lst = gstToLST(
                 gst,
                 gps.location.lng()
               );
   Serial.print(F(" LST : "));
-  Serial.print(lst);
-  // https://www.heavens-above.com/whattime.aspx?lat=44.8022&lng=-0.592&loc=Unnamed&alt=0&tz=CET
+  Serial.print(lst, 4);
 
-
+// https://astronomy.stackexchange.com/questions/13067/conversion-from-equatorial-coordinate-to-horizon-coordinates
   double ra; //These variables are used in the calculations, double/float/int/byte depending on the type of number needed.
   double dec;
   ra = (equatorialCoordinate.rightAscension / 15);
   double h = 15.0 * (lst - ra);
+    Serial.print(F(" h : "));
+  Serial.print(h);
   h = (h / 360) * (2 * PI);
   dec = ((equatorialCoordinate.declination / 360) * (2 * PI));
   double sindec = sin(dec);
@@ -108,6 +113,8 @@ HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialC
   double cosdec = cos(dec);
   double coslat = cos(gps.location.lat());
   double jeremy = cos(h);
+      Serial.print(F(" jeremy : "));
+  Serial.print(jeremy);
   double sinalt = (sindec * sinlat) + (cosdec * coslat * jeremy);
   double alt = asin(sinalt);
   double cosalt = cos(alt);
@@ -117,12 +124,11 @@ HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialC
   double sinhh = sin(h);
   if ((sinhh * -1) > 0) {
     az = az;
-  }
-  else
-  {
+  } else {
     az = 360.0 - az;
   }
 
+//GST : 19.8827 LST : 19.8437 h : 95.19 jeremy : -0.09 Altitude : 13.497975349426269531250000000000 Azimuth : 0.823711490631103515625000000000
   return {
     ra,
     dec
