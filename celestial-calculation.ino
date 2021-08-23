@@ -3,7 +3,7 @@
 
 double timenow;
 
-float getJulianDate(
+float utcToJulianDate(
   byte gpsDay,
   byte gpsMonth,
   int gpsYear,
@@ -30,7 +30,7 @@ float getJulianDate(
 }
 
 //Converts UTC (Univeral Time) to GST (Greenwich Sidereal Time).
-float utcToGST(float julianDate) {
+float julianDateToGST(float julianDate) {
   double s = julianDate - 2451545.0;
   double t = s / 36525.0;
   double step1 = (2400.051336 * t);
@@ -74,7 +74,10 @@ float gstToLST(float gst, float gpsLongitude) {
 }
 
 HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialCoordinate equatorialCoordinate, TinyGPSPlus gps) {
-  float julianDate = getJulianDate(
+   /* Serial.print(F("Centisecond : "));
+    Serial.println(gps.time.centisecond());*/
+  
+  float julianDate = utcToJulianDate(
                        gps.date.day(),
                        gps.date.month(),
                        gps.date.year(),
@@ -82,12 +85,11 @@ HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialC
                        gps.time.minute(),
                        gps.time.second()
                      );
-  /*
-    Serial.print(F("Julian date : "));
-    Serial.println(julianDate);
-  */
+  
 
-  float gst = utcToGST(julianDate);
+  
+
+  float gst = julianDateToGST(julianDate);
   Serial.print(F("GST : "));
   Serial.print(gst, 4);
 
@@ -128,9 +130,13 @@ HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialC
     az = 360.0 - az;
   }
 
+
+
 //GST : 19.8827 LST : 19.8437 h : 95.19 jeremy : -0.09 Altitude : 13.497975349426269531250000000000 Azimuth : 0.823711490631103515625000000000
+//GST : 3.5623 LST : 3.5233 h : -149.62 jeremy : -0.86 Altitude : 13.497975349426269531250000000000 Azimuth : 0.823711490631103515625000000000
+
   return {
-    ra,
-    dec
+    alt,
+    az
   };
 }
