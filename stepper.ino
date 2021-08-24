@@ -14,8 +14,8 @@ AccelStepper elevationStepper = AccelStepper(
                                 );
 
 void setupSteppers() {
-  elevationStepper.setMaxSpeed(2000);
-  elevationStepper.setAcceleration(1000000);
+  elevationStepper.setMaxSpeed(1000);
+  elevationStepper.setAcceleration(300);
 }
 
 void angleStepper(long angleInDegrees) {

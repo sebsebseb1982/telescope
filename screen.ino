@@ -46,6 +46,20 @@ void showNunchukTestPage(NunchukStatus nunchuckStatus) {
   } else {
     display.println(F("NONE"));
   }
+
+  display.print(F("C button : "));
+  if (nunchuckStatus.cButton) {
+    display.println(true);
+  } else {
+    display.println(false);
+  }
+
+  display.print(F("Z button : "));
+  if (nunchuckStatus.zButton) {
+    display.println(true);
+  } else {
+    display.println(false);
+  }
   
   display.display();
 }

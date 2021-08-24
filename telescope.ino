@@ -3,12 +3,15 @@
 
 #include <TinyGPSPlus.h>
 
+#include "BigNumber.h"
+
 #include "celestial-calculation.h"
 #include "nunchuk.h"
 #include "stepper.h"
 
 void setup() {
   Serial.begin(115200);
+  setupCelestialCalculation();
   setupNunchuk();
   setupGPS();
   setupSteppers();
@@ -23,17 +26,11 @@ void loop() {
 
   // For conversion to degrees you use the following formula:
   double deg = (rad * 57.295779513082320876798154814105) + 180;
-  //angleStepper(deg);
-  if (nunchuckStatus.zButton) {
-    turnStepper((nunchuckStatus.joystickX - 128) / 3);
-  } else {
-    turnStepper((nunchuckStatus.joystickX - 128) / 6);
-  }
 
   if (isGPSReady()) {
     TinyGPSPlus gps = getGPSDatas();
-    showGPSPage(gps);
-    //showNunchukTestPage(nunchuckStatus);
+    //showGPSPage(gps);
+    showNunchukTestPage(nunchuckStatus);
 
     EquatorialCoordinate whirpoolGalaxy = {
       202.46963,
@@ -45,15 +42,13 @@ void loop() {
       24.10503
     };
 
-    HorizontalCoordinate horizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(pleiadeCluster, gps);
+    HorizontalCoordinate horizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(whirpoolGalaxy, gps);
 
-    Serial.print(F(" Altitude : "));
-    Serial.print(horizontalCoordinate.altitude, 10);
+        Serial.print(F(" Altitude : "));
+        Serial.print(horizontalCoordinate.altitude, 10);
+        Serial.print(F(" Azimuth : "));
+        Serial.println(horizontalCoordinate.azimuth, 10);
 
-    Serial.print(F(" Azimuth : "));
-    Serial.println(horizontalCoordinate.azimuth, 10);
+    angleStepper(horizontalCoordinate.azimuth);
   }
-
-
-
 }
