@@ -2,14 +2,17 @@ static const uint32_t GPSBaud = 9600;
 
 TinyGPSPlus gps;
 
+SoftwareSerial gpsSerial(12, 14);
+
 void setupGPS() {
-  Serial1.begin(GPSBaud);
+  gpsSerial.begin(GPSBaud);
   Serial.print(F("TinyGPSPlus library v. ")); Serial.println(TinyGPSPlus::libraryVersion());
 }
 
 void refreshGPS() {
-  while (Serial1.available() > 0)
-    gps.encode(Serial1.read());
+  while (gpsSerial.available() > 0) {
+    gps.encode(gpsSerial.read());
+  }
 
   if (millis() > 5000 && gps.charsProcessed() < 10)
   {

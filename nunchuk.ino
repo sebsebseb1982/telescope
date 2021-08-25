@@ -47,7 +47,3 @@ NunchukStatus getNunchukStatus() {
     nunchuk.accelZ()
   };
 }
-
-boolean isNunchukLeft() {
-
-}

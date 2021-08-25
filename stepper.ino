@@ -1,8 +1,8 @@
 #include <AccelStepper.h>
 
 Stepper elevationStepperSpecs = {
-  11,
-  12,
+  13,
+  15,
   1,
   1600
 };
@@ -14,8 +14,8 @@ AccelStepper elevationStepper = AccelStepper(
                                 );
 
 void setupSteppers() {
-  elevationStepper.setMaxSpeed(1000);
-  elevationStepper.setAcceleration(300);
+  elevationStepper.setMaxSpeed(1600);
+  //elevationStepper.setAcceleration(300);
 }
 
 void angleStepper(long angleInDegrees) {

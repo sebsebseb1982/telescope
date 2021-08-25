@@ -1,24 +1,28 @@
 #include <SPI.h>
 #include <Wire.h>
-
+#include <SoftwareSerial.h>
 #include <TinyGPSPlus.h>
 
 #include "BigNumber.h"
+// #include "MemoryFree.h"
 
 #include "celestial-calculation.h"
 #include "nunchuk.h"
 #include "stepper.h"
 
+static const int precision = 50;
+
 void setup() {
   Serial.begin(115200);
-  setupCelestialCalculation();
+  setupMath(precision);
   setupNunchuk();
   setupGPS();
-  setupSteppers();
+  //setupSteppers();
   setupScreen();
 }
 
 void loop() {
+
   NunchukStatus nunchuckStatus = getNunchukStatus();
   int deltaX = nunchuckStatus.joystickX - 128;
   int deltaY = nunchuckStatus.joystickY - 128;
@@ -26,6 +30,7 @@ void loop() {
 
   // For conversion to degrees you use the following formula:
   double deg = (rad * 57.295779513082320876798154814105) + 180;
+
 
   if (isGPSReady()) {
     TinyGPSPlus gps = getGPSDatas();
@@ -44,11 +49,20 @@ void loop() {
 
     HorizontalCoordinate horizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(whirpoolGalaxy, gps);
 
-        Serial.print(F(" Altitude : "));
-        Serial.print(horizontalCoordinate.altitude, 10);
-        Serial.print(F(" Azimuth : "));
-        Serial.println(horizontalCoordinate.azimuth, 10);
+    //angleStepper(horizontalCoordinate.azimuth);
+    showHorizontalCoordinates(horizontalCoordinate);
 
-    angleStepper(horizontalCoordinate.azimuth);
   }
+
+  /*
+    BigNumber testSinus = sinus(BigNumber("3.141592653589793238462643") / BigNumber(4), precision);
+    printBignum("sinus(PI/4)", testSinus);
+  */
+  /*
+        Serial.print("freeMemory()=");
+      Serial.println(freeMemory());
+  */
+  //testTrigo();
+  Serial.println("======================================================================================================");
+  //delay(1000);
 }
