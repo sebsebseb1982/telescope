@@ -1,7 +1,5 @@
 
-
-void printBignum (String name, BigNumber n)
-{
+void printBignum (String name, BigNumber n) {
   Serial.print(name);
   Serial.print(F("="));
   char * s = n.toString ();
@@ -9,9 +7,7 @@ void printBignum (String name, BigNumber n)
   free(s);
 }
 
-
 // https://www.instructables.com/Arduino-Star-Finder-for-Telescopes/
-
 
 void log (String name, double val) {
   Serial.print(name);

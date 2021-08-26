@@ -78,17 +78,6 @@ NunchukStatus getNunchukStatus() {
 void computeControls() {
   NunchukStatus nunchukStatus = getNunchukStatus();
 
-  if (nunchukStatus.joystickDirection == LEFT) {
-    currentScreen = (Screen) ((((int) currentScreen) - 1) % 4);
-  } else if (nunchukStatus.joystickDirection == RIGHT) {
-    currentScreen = (Screen) ((((int) currentScreen) + 1) % 4);
-  }
-
-  Serial.print(F("c="));
-  Serial.print(nunchukStatus.cButton);
-  Serial.print(F("z="));
-  Serial.println(nunchukStatus.zButton);
-
   if (nunchukStatus.zButton && !zButtonEventAlreadyTreated && nunchukStatus.cButton && !cButtonEventAlreadyTreated) {
     currentScreen = MENU;
     zButtonEventAlreadyTreated = true;

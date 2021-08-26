@@ -18,7 +18,18 @@ void showMenuPage() {
 void computeMenuPageControls() {
   NunchukStatus nunchukStatus = getNunchukStatus();
   if (nunchukStatus.zButton && !zButtonEventAlreadyTreated) {
-    currentScreen = GPS;
+    currentScreen = selectedScreen;
     zButtonEventAlreadyTreated = true;
+  }
+
+  if (nunchukStatus.joystickDirection == LEFT /*&& !joystickEventAlreadyTreated*/) {
+    joystickEventAlreadyTreated = true;
+    selectedScreen = NUNCHUK;
+  } else if (nunchukStatus.joystickDirection == RIGHT /*&& !joystickEventAlreadyTreated*/) {
+    joystickEventAlreadyTreated = true;
+    selectedScreen = OBJECT_TRACKING;
+  } else {
+    joystickEventAlreadyTreated = true;
+    selectedScreen = GPS;
   }
 }

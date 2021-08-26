@@ -1,5 +1,5 @@
 void showNunchukTestPage() {
-  header("Nunchuk test");
+  header("Nunchuk");
   NunchukStatus nunchukStatus = getNunchukStatus();
 
   display.setCursor(0, 20);
@@ -15,6 +15,11 @@ void showNunchukTestPage() {
   } else {
     display.println(F("NONE"));
   }
+
+  display.print(F("Joy X : "));
+  display.println(nunchukStatus.joystickX);
+  display.print(F("Joy Y : "));
+  display.println(nunchukStatus.joystickY);
 
   display.print(F("C button : "));
   if (nunchukStatus.cButton) {
