@@ -1,6 +1,6 @@
 static const uint32_t GPSBaud = 9600;
 
-TinyGPSPlus gps;
+
 
 SoftwareSerial gpsSerial(12, 14);
 
@@ -24,9 +24,4 @@ void refreshGPS() {
 boolean isGPSReady() {
   refreshGPS();
   return gps.location.isValid() && gps.date.isValid() && gps.time.isValid();
-}
-
-TinyGPSPlus getGPSDatas() {
-    refreshGPS();
-  return gps;
 }

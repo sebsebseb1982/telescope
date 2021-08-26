@@ -9,8 +9,11 @@
 #include "celestial-calculation.h"
 #include "nunchuk.h"
 #include "stepper.h"
+#include "screen.h"
 
 static const int precision = 50;
+TinyGPSPlus gps;
+Screen currentScreen;
 
 void setup() {
   Serial.begin(115200);
@@ -23,19 +26,9 @@ void setup() {
 
 void loop() {
 
-  NunchukStatus nunchuckStatus = getNunchukStatus();
-  int deltaX = nunchuckStatus.joystickX - 128;
-  int deltaY = nunchuckStatus.joystickY - 128;
-  double rad = atan2 (deltaY, deltaX); // In radians
-
-  // For conversion to degrees you use the following formula:
-  double deg = (rad * 57.295779513082320876798154814105) + 180;
-
-
+  refreshGPS();
+  computeControls();
   if (isGPSReady()) {
-    TinyGPSPlus gps = getGPSDatas();
-    //showGPSPage(gps);
-    showNunchukTestPage(nunchuckStatus);
 
     EquatorialCoordinate whirpoolGalaxy = {
       202.46963,
@@ -47,22 +40,11 @@ void loop() {
       24.10503
     };
 
-    HorizontalCoordinate horizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(whirpoolGalaxy, gps);
+    track(whirpoolGalaxy);
 
     //angleStepper(horizontalCoordinate.azimuth);
-    showHorizontalCoordinates(horizontalCoordinate);
-
   }
 
-  /*
-    BigNumber testSinus = sinus(BigNumber("3.141592653589793238462643") / BigNumber(4), precision);
-    printBignum("sinus(PI/4)", testSinus);
-  */
-  /*
-        Serial.print("freeMemory()=");
-      Serial.println(freeMemory());
-  */
-  //testTrigo();
+  updateScreen();
   Serial.println("======================================================================================================");
-  //delay(1000);
 }

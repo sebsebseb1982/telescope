@@ -29,7 +29,18 @@ JoystickDirection getJoystickDirection() {
     return NONE;
   }
 }
+/*
 
+
+  NunchukStatus nunchuckStatus = getNunchukStatus();
+  int deltaX = nunchuckStatus.joystickX - 128;
+  int deltaY = nunchuckStatus.joystickY - 128;
+  double rad = atan2 (deltaY, deltaX); // In radians
+
+  // For conversion to degrees you use the following formula:
+  double deg = (rad * 57.295779513082320876798154814105) + 180;
+
+*/
 NunchukStatus getNunchukStatus() {
   boolean success = nunchuk.update();
   if (!success) {  // Ruh roh
@@ -46,4 +57,14 @@ NunchukStatus getNunchukStatus() {
     nunchuk.accelY(),
     nunchuk.accelZ()
   };
+}
+
+void computeControls() {
+  NunchukStatus nunchukStatus = getNunchukStatus();
+
+  if(nunchukStatus.joystickDirection == LEFT) {
+    currentScreen =(Screen) ((((int) currentScreen) - 1) % 3);
+  } else if(nunchukStatus.joystickDirection == RIGHT) {
+   currentScreen =(Screen) ((((int) currentScreen) + 1) % 3);
+  }
 }

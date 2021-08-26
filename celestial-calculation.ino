@@ -207,7 +207,7 @@ HorizontalCoordinate caca(EquatorialCoordinate equatorialCoordinate, BigNumber l
   };
 }
 
-HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialCoordinate equatorialCoordinate, TinyGPSPlus gps) {
+HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialCoordinate equatorialCoordinate) {
   BigNumber julianDay = getJulianDay(
                           gps.date.day(),
                           gps.date.month(),

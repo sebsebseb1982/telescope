@@ -15,6 +15,8 @@ void setupScreen() {
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
+
+  currentScreen = GPS;
 }
 
 void menu(String name) {
@@ -23,50 +25,48 @@ void menu(String name) {
   display.print(name);
 
   if (gps.satellites.isValid()) {
-    TinyGPSPlus gps = getGPSDatas();
     display.setCursor(80, 8);
     display.print(F("Sat: "));
     display.print(gps.satellites.value());
   }
 }
 
-void showNunchukTestPage(NunchukStatus nunchuckStatus) {
+void showNunchukTestPage() {
   menu("Nunchuk test");
+  NunchukStatus nunchukStatus = getNunchukStatus();
 
   display.setCursor(0, 20);
   display.print(F("Direction : "));
-  if (nunchuckStatus.joystickDirection == UP) {
+  if (nunchukStatus.joystickDirection == UP) {
     display.println(F("UP"));
-  } else if (nunchuckStatus.joystickDirection == DOWN) {
+  } else if (nunchukStatus.joystickDirection == DOWN) {
     display.println(F("DOWN"));
-  } else if (nunchuckStatus.joystickDirection == LEFT) {
+  } else if (nunchukStatus.joystickDirection == LEFT) {
     display.println(F("LEFT"));
-  } else if (nunchuckStatus.joystickDirection == RIGHT) {
+  } else if (nunchukStatus.joystickDirection == RIGHT) {
     display.println(F("RIGHT"));
   } else {
     display.println(F("NONE"));
   }
 
   display.print(F("C button : "));
-  if (nunchuckStatus.cButton) {
+  if (nunchukStatus.cButton) {
     display.println(true);
   } else {
     display.println(false);
   }
 
   display.print(F("Z button : "));
-  if (nunchuckStatus.zButton) {
+  if (nunchukStatus.zButton) {
     display.println(true);
   } else {
     display.println(false);
   }
-  
-  display.display();
+
 }
 
-void showGPSPage(TinyGPSPlus gps) {
+void showGPSPage() {
   menu("GPS");
-
 
   display.setCursor(0, 20);
 
@@ -95,11 +95,11 @@ void showGPSPage(TinyGPSPlus gps) {
 
   /*
     // Display static text
-    display.print("x = ");  display.println(nunchuckStatus.joystickX);
-    display.print("y = ");      display.println(nunchuckStatus.joystickY);
+    display.print("x = ");  display.println(nunchukStatus.joystickX);
+    display.print("y = ");      display.println(nunchukStatus.joystickY);
 
-    int deltaX = nunchuckStatus.joystickX - 128;
-    int deltaY = nunchuckStatus.joystickY - 128;
+    int deltaX = nunchukStatus.joystickX - 128;
+    int deltaY = nunchukStatus.joystickY - 128;
     double rad = atan2 (deltaY, deltaX); // In radians
 
     // For conversion to degrees you use the following formula:
@@ -108,29 +108,27 @@ void showGPSPage(TinyGPSPlus gps) {
 
     //display.drawPixel(joyX/4, 64-(joyY/4), WHITE);
 
-    int speed = (nunchuckStatus.joystickX - 128) * 100;
+    int speed = (nunchukStatus.joystickX - 128) * 100;
     display.print("speed = ");      display.println(speed);
   */
-  display.display();
 }
 
-void showHorizontalCoordinates(HorizontalCoordinate horizontalCoordinates) {
-  menu("Star");
-
+void showHorizontalCoordinates() {
+  menu("Tracker");
 
   display.setCursor(0, 20);
 
   display.print(F("Az. : "));
-  display.println(horizontalCoordinates.azimuth, 10);
-display.print(F("Alt. : "));
-  display.println(horizontalCoordinates.altitude, 10);
+  display.println(currentTrackedObject.azimuth, 10);
+  display.print(F("Alt. : "));
+  display.println(currentTrackedObject.altitude, 10);
   /*
     // Display static text
-    display.print("x = ");  display.println(nunchuckStatus.joystickX);
-    display.print("y = ");      display.println(nunchuckStatus.joystickY);
+    display.print("x = ");  display.println(nunchukStatus.joystickX);
+    display.print("y = ");      display.println(nunchukStatus.joystickY);
 
-    int deltaX = nunchuckStatus.joystickX - 128;
-    int deltaY = nunchuckStatus.joystickY - 128;
+    int deltaX = nunchukStatus.joystickX - 128;
+    int deltaY = nunchukStatus.joystickY - 128;
     double rad = atan2 (deltaY, deltaX); // In radians
 
     // For conversion to degrees you use the following formula:
@@ -139,8 +137,18 @@ display.print(F("Alt. : "));
 
     //display.drawPixel(joyX/4, 64-(joyY/4), WHITE);
 
-    int speed = (nunchuckStatus.joystickX - 128) * 100;
+    int speed = (nunchukStatus.joystickX - 128) * 100;
     display.print("speed = ");      display.println(speed);
   */
+}
+
+void updateScreen() {
+  if (currentScreen == GPS) {
+    showGPSPage();
+  } else if (currentScreen == NUNCHUK) {
+    showNunchukTestPage();
+  } else if (currentScreen == OBJECT_TRACKING) {
+    showHorizontalCoordinates();
+  }
   display.display();
 }
