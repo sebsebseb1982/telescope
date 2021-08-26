@@ -1,4 +1,11 @@
-Screen selectedScreen = GPS;
+Screen menuContent[]={
+  OBJECT_CHOOSING,
+  GPS, 
+  NUNCHUK
+};
+
+int selectedScreenIndex = 0;
+Screen selectedScreen = menuContent[selectedScreenIndex];
 
 void showMenuPage() {
   header("Menu");
@@ -8,8 +15,8 @@ void showMenuPage() {
     display.print(F("GPS"));
   } else if (selectedScreen == NUNCHUK) {
     display.print(F("Nunchuk"));
-  } else if (selectedScreen == OBJECT_TRACKING) {
-    display.print(F("Object tracking"));
+  } else if (selectedScreen == OBJECT_CHOOSING) {
+    display.print(F("Object choosing"));
   }
 
   computeMenuPageControls();
@@ -22,14 +29,21 @@ void computeMenuPageControls() {
     zButtonEventAlreadyTreated = true;
   }
 
-  if (nunchukStatus.joystickDirection == LEFT /*&& !joystickEventAlreadyTreated*/) {
+  if (nunchukStatus.joystickDirection == LEFT && !joystickEventAlreadyTreated) {
+    selectedScreenIndex --;
     joystickEventAlreadyTreated = true;
-    selectedScreen = NUNCHUK;
-  } else if (nunchukStatus.joystickDirection == RIGHT /*&& !joystickEventAlreadyTreated*/) {
+  } else if (nunchukStatus.joystickDirection == RIGHT && !joystickEventAlreadyTreated) {
+    selectedScreenIndex ++;
     joystickEventAlreadyTreated = true;
-    selectedScreen = OBJECT_TRACKING;
-  } else {
-    joystickEventAlreadyTreated = true;
-    selectedScreen = GPS;
   }
+  
+  int nbMenuContent = sizeof(menuContent) / sizeof(Screen);
+
+  if (selectedScreenIndex == -1) {
+    selectedScreenIndex = nbMenuContent - 1;
+  } else {
+    selectedScreenIndex = selectedScreenIndex % nbMenuContent;
+  }
+
+  selectedScreen = menuContent[selectedScreenIndex];
 }

@@ -2,5 +2,6 @@ enum Screen {
   MENU,
   GPS, 
   NUNCHUK, 
+  OBJECT_CHOOSING,
   OBJECT_TRACKING
 };

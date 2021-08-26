@@ -14,9 +14,9 @@ AccelStepper azimuthStepper = AccelStepper(
                               );
 
 void setupSteppers() {
-  azimuthStepper.setMaxSpeed(1600);
+  azimuthStepper.setMaxSpeed(3000);
   azimuthStepper.setAcceleration(800);
-  azimuthStepper.setSpeed(1600);
+  azimuthStepper.setSpeed(3000);
 }
 
 void angleStepper(double angleInDegrees) {

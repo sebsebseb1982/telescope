@@ -1,6 +1,14 @@
-HorizontalCoordinate currentTrackedObject;
+Object currentTrackedObject;
+HorizontalCoordinate currentHorizontalCoordinate;
 
-void track(EquatorialCoordinate objectToTrack) {
-  currentTrackedObject = getHorizontalCoordinateFromEquatorialCoordinate(objectToTrack);
-  angleStepper(currentTrackedObject.azimuth);
+double deltaAzimuth = 0;
+double deltaAltitude = 0;
+
+void setupTracker(){
+  currentTrackedObject = objects[0];
+}
+
+void track() {
+  currentHorizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(currentTrackedObject.equatorialCoordinate);
+  angleStepper(currentHorizontalCoordinate.azimuth + deltaAzimuth);
 }

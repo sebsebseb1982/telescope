@@ -7,6 +7,7 @@
 // #include "MemoryFree.h"
 
 #include "celestial-calculation.h"
+#include "object.h"
 #include "nunchuk.h"
 #include "stepper.h"
 #include "screen.h"
@@ -21,6 +22,22 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 static const int precision = 50;
 TinyGPSPlus gps;
 Screen currentScreen;
+Object objects[2] = {
+  {
+    "Whirpool galaxy",
+    {
+      202.46963,
+      47.19519
+    }
+  },
+  {
+    "Pleiade cluster",
+    {
+      56.87117,
+      24.10503
+    }
+  }
+};
 
 void setup() {
   Serial.begin(115200);
@@ -29,6 +46,7 @@ void setup() {
   setupGPS();
   setupSteppers();
   setupScreen();
+  setupTracker();
 }
 
 void loop() {
@@ -46,7 +64,7 @@ void loop() {
       24.10503
     };
 
-    track(whirpoolGalaxy);
+    track();
   }
 
   updateScreen();

@@ -30,7 +30,9 @@ void updateScreen() {
     showGPSPage();
   } else if (currentScreen == NUNCHUK) {
     showNunchukTestPage();
-  } else if (currentScreen == OBJECT_TRACKING) {
+  } else if (currentScreen == OBJECT_CHOOSING) {
+    showObjectChoosingPage();
+  }else if (currentScreen == OBJECT_TRACKING) {
     showObjectTrackingPage();
   }
   display.display();
