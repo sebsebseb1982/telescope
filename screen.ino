@@ -1,11 +1,3 @@
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
-#define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
-
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 void setupScreen() {
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
@@ -16,10 +8,10 @@ void setupScreen() {
   display.setTextSize(1);
   display.setTextColor(WHITE);
 
-  currentScreen = GPS;
+  currentScreen = MENU;
 }
 
-void menu(String name) {
+void header(String name) {
   display.clearDisplay();
   display.setCursor(0, 8);
   display.print(name);
@@ -31,124 +23,15 @@ void menu(String name) {
   }
 }
 
-void showNunchukTestPage() {
-  menu("Nunchuk test");
-  NunchukStatus nunchukStatus = getNunchukStatus();
-
-  display.setCursor(0, 20);
-  display.print(F("Direction : "));
-  if (nunchukStatus.joystickDirection == UP) {
-    display.println(F("UP"));
-  } else if (nunchukStatus.joystickDirection == DOWN) {
-    display.println(F("DOWN"));
-  } else if (nunchukStatus.joystickDirection == LEFT) {
-    display.println(F("LEFT"));
-  } else if (nunchukStatus.joystickDirection == RIGHT) {
-    display.println(F("RIGHT"));
-  } else {
-    display.println(F("NONE"));
-  }
-
-  display.print(F("C button : "));
-  if (nunchukStatus.cButton) {
-    display.println(true);
-  } else {
-    display.println(false);
-  }
-
-  display.print(F("Z button : "));
-  if (nunchukStatus.zButton) {
-    display.println(true);
-  } else {
-    display.println(false);
-  }
-
-}
-
-void showGPSPage() {
-  menu("GPS");
-
-  display.setCursor(0, 20);
-
-  display.print(F("Lat.: "));
-  display.println(gps.location.lat(), 6);
-  display.print(F("Lon.: "));
-  display.println(gps.location.lng(), 6);
-
-  display.print(F("Date :"));
-  display.print(gps.date.day());
-  display.print(F("/"));
-  display.print(gps.date.month());
-  display.print(F("/"));
-  display.println(gps.date.year());
-
-  display.print(F("Heure: "));
-  if (gps.time.hour() < 10) display.print(F("0"));
-  display.print(gps.time.hour());
-  display.print(F(":"));
-  if (gps.time.minute() < 10) display.print(F("0"));
-  display.print(gps.time.minute());
-  display.print(F(":"));
-  if (gps.time.second() < 10) display.print(F("0"));
-  display.print(gps.time.second());
-  display.println(F("(UTC)"));
-
-  /*
-    // Display static text
-    display.print("x = ");  display.println(nunchukStatus.joystickX);
-    display.print("y = ");      display.println(nunchukStatus.joystickY);
-
-    int deltaX = nunchukStatus.joystickX - 128;
-    int deltaY = nunchukStatus.joystickY - 128;
-    double rad = atan2 (deltaY, deltaX); // In radians
-
-    // For conversion to degrees you use the following formula:
-    double deg = (rad * 57.295779513082320876798154814105) + 180;
-    display.print("angle = ");      display.println(deg);
-
-    //display.drawPixel(joyX/4, 64-(joyY/4), WHITE);
-
-    int speed = (nunchukStatus.joystickX - 128) * 100;
-    display.print("speed = ");      display.println(speed);
-  */
-}
-
-void showHorizontalCoordinates() {
-  menu("Tracker");
-
-  display.setCursor(0, 20);
-
-  display.print(F("Az. : "));
-  display.println(currentTrackedObject.azimuth, 10);
-  display.print(F("Alt. : "));
-  display.println(currentTrackedObject.altitude, 10);
-  /*
-    // Display static text
-    display.print("x = ");  display.println(nunchukStatus.joystickX);
-    display.print("y = ");      display.println(nunchukStatus.joystickY);
-
-    int deltaX = nunchukStatus.joystickX - 128;
-    int deltaY = nunchukStatus.joystickY - 128;
-    double rad = atan2 (deltaY, deltaX); // In radians
-
-    // For conversion to degrees you use the following formula:
-    double deg = (rad * 57.295779513082320876798154814105) + 180;
-    display.print("angle = ");      display.println(deg);
-
-    //display.drawPixel(joyX/4, 64-(joyY/4), WHITE);
-
-    int speed = (nunchukStatus.joystickX - 128) * 100;
-    display.print("speed = ");      display.println(speed);
-  */
-}
-
 void updateScreen() {
-  if (currentScreen == GPS) {
+  if (currentScreen == MENU) {
+    showMenuPage();
+  } if (currentScreen == GPS) {
     showGPSPage();
   } else if (currentScreen == NUNCHUK) {
     showNunchukTestPage();
   } else if (currentScreen == OBJECT_TRACKING) {
-    showHorizontalCoordinates();
+    showObjectTrackingPage();
   }
   display.display();
 }

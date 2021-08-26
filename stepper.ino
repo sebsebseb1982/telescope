@@ -1,29 +1,29 @@
 #include <AccelStepper.h>
 
-Stepper elevationStepperSpecs = {
+Stepper azimuthStepperSpecs = {
   13,
   15,
   1,
   1600
 };
 
-AccelStepper elevationStepper = AccelStepper(
-                                  elevationStepperSpecs.interfaceType,
-                                  elevationStepperSpecs.pulsePin,
-                                  elevationStepperSpecs.directionPin
+AccelStepper azimuthStepper = AccelStepper(
+                                  azimuthStepperSpecs.interfaceType,
+                                  azimuthStepperSpecs.pulsePin,
+                                  azimuthStepperSpecs.directionPin
                                 );
 
 void setupSteppers() {
-  elevationStepper.setMaxSpeed(1600);
-  //elevationStepper.setAcceleration(300);
+  azimuthStepper.setMaxSpeed(1600);
+  //azimuthStepper.setAcceleration(300);
 }
 
 void angleStepper(long angleInDegrees) {
-  elevationStepper.moveTo(angleInDegrees * elevationStepperSpecs.pulsesByRevolution / 360);
-  elevationStepper.runToPosition();
+  azimuthStepper.moveTo(angleInDegrees * azimuthStepperSpecs.pulsesByRevolution / 360);
+  azimuthStepper.runToPosition();
 }
 
 void turnStepper(int delta) {
-  elevationStepper.move(delta);
-  elevationStepper.runToPosition();
+  azimuthStepper.move(delta);
+  azimuthStepper.runToPosition();
 }

@@ -4,6 +4,9 @@ static const int joystickCenterValue = 128;
 static const int deadZone = 20;
 
 Nunchuk nunchuk;
+boolean zButtonEventAlreadyTreated;
+boolean cButtonEventAlreadyTreated;
+boolean joystickEventAlreadyTreated;
 
 void setupNunchuk() {
   nunchuk.begin();
@@ -47,10 +50,23 @@ NunchukStatus getNunchukStatus() {
     Serial.println("Controller disconnected!");
   }
 
+  if (!nunchuk.buttonZ()) {
+    zButtonEventAlreadyTreated = false;
+  }
+
+  if (!nunchuk.buttonC()) {
+    cButtonEventAlreadyTreated = false;
+  }
+
+  JoystickDirection joystickDirection = getJoystickDirection();
+  if (joystickDirection == NONE) {
+    joystickEventAlreadyTreated = false;
+  }
+
   return {
     nunchuk.buttonZ(),
     nunchuk.buttonC(),
-    getJoystickDirection(),
+    joystickDirection,
     nunchuk.joyX() - joystickCenterValue,
     nunchuk.joyY() - joystickCenterValue,
     nunchuk.accelX(),
@@ -62,9 +78,20 @@ NunchukStatus getNunchukStatus() {
 void computeControls() {
   NunchukStatus nunchukStatus = getNunchukStatus();
 
-  if(nunchukStatus.joystickDirection == LEFT) {
-    currentScreen =(Screen) ((((int) currentScreen) - 1) % 3);
-  } else if(nunchukStatus.joystickDirection == RIGHT) {
-   currentScreen =(Screen) ((((int) currentScreen) + 1) % 3);
+  if (nunchukStatus.joystickDirection == LEFT) {
+    currentScreen = (Screen) ((((int) currentScreen) - 1) % 4);
+  } else if (nunchukStatus.joystickDirection == RIGHT) {
+    currentScreen = (Screen) ((((int) currentScreen) + 1) % 4);
+  }
+
+  Serial.print(F("c="));
+  Serial.print(nunchukStatus.cButton);
+  Serial.print(F("z="));
+  Serial.println(nunchukStatus.zButton);
+
+  if (nunchukStatus.zButton && !zButtonEventAlreadyTreated && nunchukStatus.cButton && !cButtonEventAlreadyTreated) {
+    currentScreen = MENU;
+    zButtonEventAlreadyTreated = true;
+    cButtonEventAlreadyTreated = true;
   }
 }
