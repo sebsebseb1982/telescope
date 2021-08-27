@@ -78,9 +78,7 @@ NunchukStatus getNunchukStatus() {
 void computeControls() {
   NunchukStatus nunchukStatus = getNunchukStatus();
 
-  if (nunchukStatus.zButton && !zButtonEventAlreadyTreated && nunchukStatus.cButton && !cButtonEventAlreadyTreated) {
+  if (nunchukStatus.zButton && nunchukStatus.cButton) {
     currentScreen = MENU;
-    zButtonEventAlreadyTreated = true;
-    cButtonEventAlreadyTreated = true;
   }
 }

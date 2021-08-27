@@ -16,6 +16,16 @@ void header(String name) {
   display.setCursor(0, 8);
   display.print(name);
 
+  if (trackingInProgress) {
+    display.setCursor(70, 8);
+    display.print(F("T"));
+  }
+
+  if (isGPSReady()) {
+    display.setCursor(60, 8);
+    display.print(F("G"));
+  }
+
   if (gps.satellites.isValid()) {
     display.setCursor(80, 8);
     display.print(F("Sat: "));
@@ -32,7 +42,7 @@ void updateScreen() {
     showNunchukTestPage();
   } else if (currentScreen == OBJECT_CHOOSING) {
     showObjectChoosingPage();
-  }else if (currentScreen == OBJECT_TRACKING) {
+  } else if (currentScreen == OBJECT_TRACKING) {
     showObjectTrackingPage();
   }
   display.display();

@@ -4,11 +4,13 @@ HorizontalCoordinate currentHorizontalCoordinate;
 double deltaAzimuth = 0;
 double deltaAltitude = 0;
 
-void setupTracker(){
+void setupTracker() {
   currentTrackedObject = objects[0];
 }
 
 void track() {
   currentHorizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(currentTrackedObject.equatorialCoordinate);
-  angleStepper(currentHorizontalCoordinate.azimuth + deltaAzimuth);
+  if (trackingInProgress) {
+    angleStepper(currentHorizontalCoordinate.azimuth + deltaAzimuth);
+  }
 }

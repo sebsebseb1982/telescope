@@ -35,16 +35,30 @@ void showObjectTrackingPage() {
   computeObjectTrackingControls();
 }
 
+double getDeltaValue() {
+  NunchukStatus nunchukStatus = getNunchukStatus();
+  if (nunchukStatus.cButton) {
+    return 1.0;
+  } else {
+    return 0.1;
+  }
+}
+
 void computeObjectTrackingControls() {
   NunchukStatus nunchukStatus = getNunchukStatus();
 
+  if (nunchukStatus.zButton && !zButtonEventAlreadyTreated) {
+    trackingInProgress = !trackingInProgress;
+    zButtonEventAlreadyTreated = true;
+  }
+
   if (nunchukStatus.joystickDirection == LEFT && !joystickEventAlreadyTreated) {
-    deltaAzimuth += -0.1;
+    deltaAzimuth += -1 * getDeltaValue();
   } else if (nunchukStatus.joystickDirection == RIGHT && !joystickEventAlreadyTreated) {
-    deltaAzimuth += 0.1;
-  }else if (nunchukStatus.joystickDirection == UP && !joystickEventAlreadyTreated) {
-    deltaAltitude += 0.1;
-  }else if (nunchukStatus.joystickDirection == DOWN && !joystickEventAlreadyTreated) {
-    deltaAltitude += -0.1;
+    deltaAzimuth += getDeltaValue();
+  } else if (nunchukStatus.joystickDirection == UP && !joystickEventAlreadyTreated) {
+    deltaAltitude += getDeltaValue();
+  } else if (nunchukStatus.joystickDirection == DOWN && !joystickEventAlreadyTreated) {
+    deltaAltitude += -1 * getDeltaValue();
   }
 }

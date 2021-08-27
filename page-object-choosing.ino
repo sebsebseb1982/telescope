@@ -1,11 +1,19 @@
 int selectedObjectIndex = 0;
 Object selectedObject = objects[selectedObjectIndex];
+const int nbObjects = sizeof(objects) / sizeof(Object);
 
 void showObjectChoosingPage() {
   header("Tracking");
 
-  display.setCursor(0, 40);
+  display.setCursor(0, 30);
+  display.print(selectedObjectIndex + 1);
+  display.print(F("/"));
+  display.println(nbObjects);
   display.println(selectedObject.name);
+  HorizontalCoordinate selectedObjectHorizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(selectedObject.equatorialCoordinate);
+  if (selectedObjectHorizontalCoordinate.altitude < 0) {
+    display.println(F("Below horizon"));
+  }
 
   computeObjectChoosingControls();
 }
@@ -15,6 +23,7 @@ void computeObjectChoosingControls() {
 
   if (nunchukStatus.zButton && !zButtonEventAlreadyTreated) {
     currentTrackedObject = selectedObject;
+    trackingInProgress = true;
     currentScreen = OBJECT_TRACKING;
     zButtonEventAlreadyTreated = true;
   }
@@ -27,8 +36,6 @@ void computeObjectChoosingControls() {
     joystickEventAlreadyTreated = true;
   }
 
-  int nbObjects = sizeof(objects) / sizeof(Object);
-
   if (selectedObjectIndex == -1) {
     selectedObjectIndex = nbObjects - 1;
   } else {
@@ -36,11 +43,4 @@ void computeObjectChoosingControls() {
   }
 
   selectedObject = objects[selectedObjectIndex];
-  /*
-    else if (nunchukStatus.joystickDirection == UP && !joystickEventAlreadyTreated) {
-      deltaAltitude += 0.1;
-    } else if (nunchukStatus.joystickDirection == DOWN && !joystickEventAlreadyTreated) {
-      deltaAltitude += -0.1;
-    }
-  */
 }
