@@ -2,6 +2,8 @@
 #include <Wire.h>
 #include <SoftwareSerial.h>
 #include <TinyGPSPlus.h>
+#include <AccelStepper.h>
+#include <MultiStepper.h>
 
 #include "BigNumber.h"
 // #include "MemoryFree.h"
@@ -345,6 +347,13 @@ Object objects[] = {
       23.46213,
       30.65986
     }
+  },
+  {
+    "Polaris",
+    {
+      37.95454,
+      89.26411
+    }
   }
 };
 
@@ -362,17 +371,7 @@ void loop() {
 
   refreshGPS();
   computeControls();
-  if (isGPSReady()) {
-    EquatorialCoordinate whirpoolGalaxy = {
-      202.46963,
-      47.19519
-    };
-
-    EquatorialCoordinate pleiadeCluster = {
-      56.87117,
-      24.10503
-    };
-
+  if (isGPSReady() && trackingInProgress) {
     track();
   }
 

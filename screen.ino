@@ -8,7 +8,7 @@ void setupScreen() {
   display.setTextSize(1);
   display.setTextColor(WHITE);
 
-  currentScreen = MENU;
+  currentScreen = CALIBRATION;
 }
 
 void header(String name) {
@@ -17,19 +17,13 @@ void header(String name) {
   display.print(name);
 
   if (trackingInProgress) {
-    display.setCursor(70, 8);
+    display.setCursor(112, 8);
     display.print(F("T"));
   }
 
   if (isGPSReady()) {
-    display.setCursor(60, 8);
+    display.setCursor(120, 8);
     display.print(F("G"));
-  }
-
-  if (gps.satellites.isValid()) {
-    display.setCursor(80, 8);
-    display.print(F("Sat: "));
-    display.print(gps.satellites.value());
   }
 }
 
@@ -44,6 +38,11 @@ void updateScreen() {
     showObjectChoosingPage();
   } else if (currentScreen == OBJECT_TRACKING) {
     showObjectTrackingPage();
+  }else if (currentScreen == VISIBILITY) {
+    showVisibilityPage();
+  }else if (currentScreen == CALIBRATION) {
+    showCalibrationPage();
   }
+
   display.display();
 }

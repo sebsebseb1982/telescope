@@ -1,7 +1,7 @@
 
 
 void showObjectTrackingPage() {
-  header("Tracking");
+  header(currentTrackedObject.name);
 
   display.setCursor(0, 20);
 
@@ -47,18 +47,18 @@ double getDeltaValue() {
 void computeObjectTrackingControls() {
   NunchukStatus nunchukStatus = getNunchukStatus();
 
-  if (nunchukStatus.zButton && !zButtonEventAlreadyTreated) {
-    trackingInProgress = !trackingInProgress;
+  if (nunchukStatus.zButton && !zButtonEventAlreadyTreated && !nunchukStatus.cButton) {
     zButtonEventAlreadyTreated = true;
+    trackingInProgress = !trackingInProgress;
   }
 
-  if (nunchukStatus.joystickDirection == LEFT && !joystickEventAlreadyTreated) {
+  if (nunchukStatus.joystickDirection == LEFT) {
     deltaAzimuth += -1 * getDeltaValue();
-  } else if (nunchukStatus.joystickDirection == RIGHT && !joystickEventAlreadyTreated) {
+  } else if (nunchukStatus.joystickDirection == RIGHT) {
     deltaAzimuth += getDeltaValue();
-  } else if (nunchukStatus.joystickDirection == UP && !joystickEventAlreadyTreated) {
+  } else if (nunchukStatus.joystickDirection == UP) {
     deltaAltitude += getDeltaValue();
-  } else if (nunchukStatus.joystickDirection == DOWN && !joystickEventAlreadyTreated) {
+  } else if (nunchukStatus.joystickDirection == DOWN) {
     deltaAltitude += -1 * getDeltaValue();
   }
 }

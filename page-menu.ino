@@ -1,7 +1,9 @@
-Screen menuContent[]={
+Screen menuContent[] = {
   OBJECT_CHOOSING,
-  GPS, 
-  NUNCHUK
+  CALIBRATION,
+  GPS,
+  NUNCHUK,
+  VISIBILITY
 };
 
 int selectedScreenIndex = 0;
@@ -17,6 +19,10 @@ void showMenuPage() {
     display.print(F("Nunchuk"));
   } else if (selectedScreen == OBJECT_CHOOSING) {
     display.print(F("Object choosing"));
+  } else if (selectedScreen == VISIBILITY) {
+    display.print(F("Visibility"));
+  } else if (selectedScreen == CALIBRATION) {
+    display.print(F("Calibration"));
   }
 
   computeMenuPageControls();
@@ -36,7 +42,7 @@ void computeMenuPageControls() {
     selectedScreenIndex ++;
     joystickEventAlreadyTreated = true;
   }
-  
+
   int nbMenuContent = sizeof(menuContent) / sizeof(Screen);
 
   if (selectedScreenIndex == -1) {

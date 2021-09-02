@@ -3,19 +3,19 @@ void showGPSPage() {
 
   display.setCursor(0, 20);
 
-  display.print(F("Lat.: "));
+  display.print(F("Lat. : "));
   display.println(gps.location.lat(), 6);
-  display.print(F("Lon.: "));
+  display.print(F("Lon. : "));
   display.println(gps.location.lng(), 6);
 
-  display.print(F("Date :"));
+  display.print(F("Date : "));
   display.print(gps.date.day());
   display.print(F("/"));
   display.print(gps.date.month());
   display.print(F("/"));
   display.println(gps.date.year());
 
-  display.print(F("Heure: "));
+  display.print(F("Time : "));
   if (gps.time.hour() < 10) display.print(F("0"));
   display.print(gps.time.hour());
   display.print(F(":"));
@@ -26,6 +26,8 @@ void showGPSPage() {
   display.print(gps.time.second());
   display.println(F("(UTC)"));
 
+  display.print(F("Satellites :"));
+  display.println(gps.satellites.value());
   /*
     // Display static text
     display.print("x = ");  display.println(nunchukStatus.joystickX);

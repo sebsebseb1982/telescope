@@ -1,33 +1,62 @@
-#include <AccelStepper.h>
+#define speed 500
+AccelStepper azimuthMotor = AccelStepper(
+                              1, // Interface
+                              15, // Pulse pin
+                              13 // Direction pin
+                            );
 
-Stepper azimuthStepperSpecs = {
-  13,
-  15,
-  1,
-  1600
+TelescopeStepper azimuthStepper = {
+  azimuthMotor,
+  1600, // Pulse by revolution
+  0
 };
-double previousAngle = 0;
-AccelStepper azimuthStepper = AccelStepper(
-                                azimuthStepperSpecs.interfaceType,
-                                azimuthStepperSpecs.pulsePin,
-                                azimuthStepperSpecs.directionPin
-                              );
+
+AccelStepper altitudeMotor = AccelStepper(
+                               1, // Interface
+                               0, // Pulse pin
+                               2 // Direction pin
+                             );
+
+TelescopeStepper altitudeStepper = {
+  altitudeMotor,
+  1600, // Pulse by revolution
+  0
+};
+
+MultiStepper telescopeSteppers;
 
 void setupSteppers() {
-  azimuthStepper.setMaxSpeed(3000);
-  azimuthStepper.setAcceleration(800);
-  azimuthStepper.setSpeed(3000);
+  azimuthMotor.setMaxSpeed(speed);
+  azimuthMotor.setAcceleration(speed);
+  azimuthMotor.setSpeed(speed);
+  altitudeMotor.setMaxSpeed(speed);
+  altitudeMotor.setAcceleration(speed);
+  altitudeMotor.setSpeed(speed);
+
+  telescopeSteppers.addStepper(azimuthMotor);
+  telescopeSteppers.addStepper(altitudeMotor);
 }
 
-void angleStepper(double angleInDegrees) {
-  if (angleInDegrees != previousAngle) {
-    azimuthStepper.moveTo(angleInDegrees * azimuthStepperSpecs.pulsesByRevolution / 360);
-    azimuthStepper.runToPosition();
-    previousAngle = angleInDegrees;
-  }
-}
+void angleStepper(double azimuthInDegrees, double altitudeInDegrees) {
+  //if (angleInDegrees != previousAzimuthAngle) {
+  
+    long positions[2]; // Array of desired stepper positions
 
-void turnStepper(int delta) {
+    positions[0] = azimuthInDegrees * azimuthStepper.pulsesByRevolution / 360;
+    positions[1] = altitudeInDegrees * altitudeStepper.pulsesByRevolution / 360;
+    telescopeSteppers.moveTo(positions);
+    telescopeSteppers.runSpeedToPosition(); // Blocks until all are in position
+  
+  /*azimuthMotor.moveTo(azimuthInDegrees * azimuthStepper.pulsesByRevolution / 360);
+  azimuthMotor.runSpeed();
+  altitudeMotor.moveTo(altitudeInDegrees * altitudeStepper.pulsesByRevolution / 360);
+  altitudeMotor.runSpeed();
+  */
+  //}
+}
+/*
+  void turnStepper(int delta) {
   azimuthStepper.move(delta);
   azimuthStepper.runToPosition();
-}
+  }
+*/

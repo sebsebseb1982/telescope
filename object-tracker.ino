@@ -10,7 +10,5 @@ void setupTracker() {
 
 void track() {
   currentHorizontalCoordinate = getHorizontalCoordinateFromEquatorialCoordinate(currentTrackedObject.equatorialCoordinate);
-  if (trackingInProgress) {
-    angleStepper(currentHorizontalCoordinate.azimuth + deltaAzimuth);
-  }
+  angleStepper(currentHorizontalCoordinate.azimuth + deltaAzimuth, currentHorizontalCoordinate.altitude + deltaAltitude);
 }

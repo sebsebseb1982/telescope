@@ -63,6 +63,8 @@ NunchukStatus getNunchukStatus() {
     joystickEventAlreadyTreated = false;
   }
 
+nunchuk.printDebug();
+
   return {
     nunchuk.buttonZ(),
     nunchuk.buttonC(),

@@ -34,4 +34,12 @@ void showNunchukTestPage() {
   } else {
     display.println(false);
   }
+
+  display.drawRect(102, 38, 20, 20, WHITE);
+  double rad = atan2 (nunchukStatus.joystickY, nunchukStatus.joystickX); // In radians
+  double deg = (rad * 57.295779513082320876798154814105) + 180;
+  uint16_t pixelX = 112 + (nunchukStatus.joystickX / 16.0);
+  uint16_t pixelY = 48 - (nunchukStatus.joystickY / 16.0);
+  display.drawPixel(pixelX, pixelY, WHITE);
+
 }

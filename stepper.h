@@ -1,6 +1,5 @@
-struct Stepper {
-  int directionPin;
-  int pulsePin;
-  int interfaceType;
+struct TelescopeStepper {
+  AccelStepper motor;
   int pulsesByRevolution;
+  double previousStep;
 };

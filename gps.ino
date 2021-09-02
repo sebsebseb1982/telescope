@@ -1,7 +1,5 @@
 static const uint32_t GPSBaud = 9600;
 
-
-
 SoftwareSerial gpsSerial(12, 14);
 
 void setupGPS() {
