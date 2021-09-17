@@ -34,6 +34,8 @@ void updateScreen() {
     showGPSPage();
   } else if (currentScreen == NUNCHUK) {
     showNunchukTestPage();
+  } else if (currentScreen == OBJECT_TYPE_CHOOSING) {
+    showObjectTypeChoosingPage();
   } else if (currentScreen == OBJECT_CHOOSING) {
     showObjectChoosingPage();
   } else if (currentScreen == OBJECT_TRACKING) {

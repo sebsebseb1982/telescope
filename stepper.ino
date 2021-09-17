@@ -1,4 +1,4 @@
-#define speed 500
+#define speed 3000
 AccelStepper azimuthMotor = AccelStepper(
                               1, // Interface
                               15, // Pulse pin
@@ -42,8 +42,12 @@ void angleStepper(double azimuthInDegrees, double altitudeInDegrees) {
   
     long positions[2]; // Array of desired stepper positions
 
-    positions[0] = azimuthInDegrees * azimuthStepper.pulsesByRevolution / 360;
-    positions[1] = altitudeInDegrees * altitudeStepper.pulsesByRevolution / 360;
+    positions[0] = (azimuthInDegrees * azimuthStepper.pulsesByRevolution / 360)*10;
+    positions[1] = (altitudeInDegrees * altitudeStepper.pulsesByRevolution / 360)*10;
+    Serial.print(F("positions[0] : "));
+    Serial.println(positions[0]);
+    Serial.print(F("positions[1] : "));
+    Serial.println(positions[1]);
     telescopeSteppers.moveTo(positions);
     telescopeSteppers.runSpeedToPosition(); // Blocks until all are in position
   

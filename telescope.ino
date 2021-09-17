@@ -10,9 +10,15 @@
 
 #include "celestial-calculation.h"
 #include "object.h"
+#include "object-tracker.h"
 #include "nunchuk.h"
 #include "stepper.h"
 #include "screen.h"
+
+#include "images/moon.h"
+#include "images/saturn.h"
+#include "images/cluster.h"
+#include "images/iss.h"
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -376,5 +382,5 @@ void loop() {
   }
 
   updateScreen();
-  Serial.println(" == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == ");
+ // Serial.println(" == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == ");
 }

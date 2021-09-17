@@ -138,9 +138,9 @@ HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinateLSTAndLatitu
   BigNumber cosHourAngle = cosinus(hourAngleInRadians, precision);
   //printBignum("cosHourAngle new", cosHourAngle);
   BigNumber sinAltitude = (sinDeclination * sinLatitude) + (cosDeclination * cosLatitude * cosHourAngle);
-  printBignum("sinAltitude new", sinAltitude);
+  //printBignum("sinAltitude new", sinAltitude);
   BigNumber altitudeInRadians = doubleToBigNumber(asin(bigNumberToDouble(sinAltitude)));
-  printBignum("altitudeInRadians1", altitudeInRadians);
+ // printBignum("altitudeInRadians1", altitudeInRadians);
   BigNumber cosAltitude = cosinus(altitudeInRadians, precision);
   BigNumber cosAzimuth = (sinDeclination - (sinLatitude * sinAltitude)) / (BigNumber(cosLatitude) * BigNumber(cosAltitude));
   BigNumber azimuthInDegrees = radiansToDegrees(doubleToBigNumber(acos(bigNumberToDouble(cosAzimuth))));
@@ -180,11 +180,11 @@ HorizontalCoordinate caca(EquatorialCoordinate equatorialCoordinate, BigNumber l
   double coslat = cos(gps.location.lat());
   //log("coslat old", coslat);
   double jeremy = cos(h);
-  log("cosh old", jeremy);
+  //log("cosh old", jeremy);
   //Serial.print(F(" jeremy : "));
   //Serial.print(jeremy);
   double sinalt = (sindec * sinlat) + (cosdec * coslat * jeremy);
-  printBignum("sinalt old", sinalt);
+  //printBignum("sinalt old", sinalt);
   double alt = asin(sinalt);
   double cosalt = cos(alt);
   alt = ((alt / (2.0 * PI)) * 360);
@@ -246,9 +246,9 @@ HorizontalCoordinate getHorizontalCoordinateFromEquatorialCoordinate(EquatorialC
                                  gps
                                );
 
-  log("alt old", oldHC.altitude);
+  //log("alt old", oldHC.altitude);
   //log("alt new", newHC.altitude);
-  log("az old", oldHC.azimuth);
+  //log("az old", oldHC.azimuth);
   //log("az new", newHC.azimuth);
   return oldHC;
 

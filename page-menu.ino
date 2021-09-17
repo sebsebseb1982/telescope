@@ -1,5 +1,5 @@
 Screen menuContent[] = {
-  OBJECT_CHOOSING,
+  OBJECT_TYPE_CHOOSING,
   CALIBRATION,
   GPS,
   NUNCHUK,
@@ -12,18 +12,18 @@ Screen selectedScreen = menuContent[selectedScreenIndex];
 void showMenuPage() {
   header("Menu");
 
-  display.setCursor(0, 50);
-  if (selectedScreen == GPS) {
-    display.print(F("GPS"));
-  } else if (selectedScreen == NUNCHUK) {
-    display.print(F("Nunchuk"));
-  } else if (selectedScreen == OBJECT_CHOOSING) {
-    display.print(F("Object choosing"));
-  } else if (selectedScreen == VISIBILITY) {
-    display.print(F("Visibility"));
-  } else if (selectedScreen == CALIBRATION) {
-    display.print(F("Calibration"));
-  }
+    display.setCursor(0, 50);
+    if (selectedScreen == GPS) {
+      display.print(F("GPS"));
+    } else if (selectedScreen == NUNCHUK) {
+      display.print(F("Nunchuk"));
+    } else if (selectedScreen == OBJECT_TYPE_CHOOSING) {
+      display.print(F("Tracking"));
+    } else if (selectedScreen == VISIBILITY) {
+      display.print(F("Visibility"));
+    } else if (selectedScreen == CALIBRATION) {
+      display.print(F("Calibration"));
+    }
 
   computeMenuPageControls();
 }

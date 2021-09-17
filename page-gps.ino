@@ -26,7 +26,7 @@ void showGPSPage() {
   display.print(gps.time.second());
   display.println(F("(UTC)"));
 
-  display.print(F("Satellites :"));
+  display.print(F("Satellites : "));
   display.println(gps.satellites.value());
   /*
     // Display static text
